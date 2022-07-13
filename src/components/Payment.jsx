@@ -139,6 +139,7 @@ const Payment = () => {
           totalBasketItems,
           razorpay_payment_id: response.razorpay_payment_id,
           orderNumber: orderNum,
+          userId
         };
 
         console.log(cartItems)
