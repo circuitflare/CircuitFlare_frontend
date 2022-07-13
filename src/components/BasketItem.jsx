@@ -241,7 +241,7 @@ const BasketItem = ({
         <span>
           {" "}
           <span
-            style={{ color: "#0066F4", fontSize: "13px" }}
+            style={{ color: "#000", fontSize: "13px" }}
           >{`(MOQ : ${curr.moq})`}</span>
           <input
             className="basket_qty"
