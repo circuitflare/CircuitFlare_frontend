@@ -65,7 +65,7 @@ const AdminOrderDetails = () => {
         });
       } else {
         let response = await axios.put(
-          `/api/admin/update/orderStatus/${orderDetails.orderNumber}`,
+          `https://circuit-flare-backend.herokuapp.com/api/admin/update/orderStatus/${orderDetails.orderNumber}`,
           { orderStatus ,purpose},
           {
             "Content-Type": "application/json",
@@ -95,7 +95,7 @@ const AdminOrderDetails = () => {
         });
       } else {
         let response = await axios.put(
-          `/api/admin/update/orderStatus/${orderDetails.orderNumber}`,
+          `https://circuit-flare-backend.herokuapp.com/api/admin/update/orderStatus/${orderDetails.orderNumber}`,
           { shippingInfoRemarks,purpose },
           {
             "Content-Type": "application/json",
