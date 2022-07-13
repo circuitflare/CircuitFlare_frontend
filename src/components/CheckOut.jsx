@@ -60,17 +60,20 @@ const CheckOut = () => {
         confirmButtonText: "Close",
       }).then(() => navigate("/login"));
     } else {
-
-      if(searchParams.get("edit")){
+      if (searchParams.get("edit")) {
         //we are coming from payment page to edit billing/delivery info , so user can still access payment page .That's why made the value false
         sessionStorage.setItem("IsPreviousPaymentDone", false);
-      }else{
+      } else {
         //whenever checkout page loads , we will make this value true so that user wont be able to route directly to payment page
-      //and in handleContinue func , we are making this value to false which means we will allow user to route to /payment page only when they fill all the fields properly
-      sessionStorage.setItem("IsPreviousPaymentDone", true);
+        //and in handleContinue func , we are making this value to false which means we will allow user to route to /payment page only when they fill all the fields properly
+        sessionStorage.setItem("IsPreviousPaymentDone", true);
       }
 
-      if (!sessionStorage.getItem("basketItems") || sessionStorage.getItem("totalBasketItems") === 0 || JSON.parse(sessionStorage.getItem("basketItems")).length === 0) {
+      if (
+        !sessionStorage.getItem("basketItems") ||
+        sessionStorage.getItem("totalBasketItems") === 0 ||
+        JSON.parse(sessionStorage.getItem("basketItems")).length === 0
+      ) {
         setLoggedIn(false);
         Swal.fire({
           title: "Cart Is Empty",
@@ -85,7 +88,9 @@ const CheckOut = () => {
           sessionStorage.getItem("deliveryInfo")
         ) {
           setSavedAddr(true);
-          setSavedBillingInfo(JSON.parse(sessionStorage.getItem("billingInfo")));
+          setSavedBillingInfo(
+            JSON.parse(sessionStorage.getItem("billingInfo"))
+          );
           setSavedDeliveryInfo(
             JSON.parse(sessionStorage.getItem("deliveryInfo"))
           );
@@ -115,15 +120,16 @@ const CheckOut = () => {
   const handleSaveInfo = () => {
     if (!saveInfo) {
       // console.log('to save')
-      let billingInfoArr = savedBillingInfo && savedBillingInfo.length > 0 ? savedBillingInfo: [];
+      let billingInfoArr =
+        savedBillingInfo && savedBillingInfo.length > 0 ? savedBillingInfo : [];
 
-      console.log(billingInfoArr)
+      console.log(billingInfoArr);
 
-      if(savedBillingInfo && savedBillingInfo.length === 2){
-        billingInfoArr.pop()
+      if (savedBillingInfo && savedBillingInfo.length === 2) {
+        billingInfoArr.pop();
       }
-      
-      billingInfoArr.unshift(billingInfo)      
+
+      billingInfoArr.unshift(billingInfo);
 
       sessionStorage.setItem("billingInfo", JSON.stringify(billingInfoArr));
       sessionStorage.setItem("deliveryInfo", JSON.stringify(deliveryInfo));
@@ -173,12 +179,11 @@ const CheckOut = () => {
   };
 
   const handleUseSavedBilling = (radioBtn) => {
-    if(radioBtn === 1){
+    if (radioBtn === 1) {
       if (!useSavedBilling1) {
         // console.log('to use saved billing info')
         setBillingInfo(savedBillingInfo[0]);
         sessionStorage.setItem("billingInfoIndex", 0);
-
       } else {
         // console.log('to not use saved billing info')
         setBillingInfo({
@@ -198,12 +203,11 @@ const CheckOut = () => {
           purchase_order_no: "",
         });
       }
-    }else{
+    } else {
       if (!useSavedBilling2) {
         // console.log('to use saved billing info')
         setBillingInfo(savedBillingInfo[1]);
         sessionStorage.setItem("billingInfoIndex", 1);
-
       } else {
         // console.log('to not use saved billing info')
         setBillingInfo({
@@ -224,7 +228,6 @@ const CheckOut = () => {
         });
       }
     }
-    
   };
 
   const handleUseSavedDelivery = () => {
@@ -282,10 +285,21 @@ const CheckOut = () => {
       });
       sessionStorage.setItem("IsPreviousPaymentDone", true);
     } else {
-      
-        //to allow route to /payment page
-        sessionStorage.setItem("IsPreviousPaymentDone", false);
-      
+      //saving data in session storage
+      let billingInfoArr =
+        savedBillingInfo && savedBillingInfo.length > 0 ? savedBillingInfo : [];
+
+      if (savedBillingInfo && savedBillingInfo.length === 2) {
+        billingInfoArr.pop();
+      }
+
+      billingInfoArr.unshift(billingInfo);
+
+      sessionStorage.setItem("billingInfo", JSON.stringify(billingInfoArr));
+      sessionStorage.setItem("deliveryInfo", JSON.stringify(deliveryInfo));
+
+      //to allow route to /payment page
+      sessionStorage.setItem("IsPreviousPaymentDone", false);
 
       navigate("/payment");
     }
@@ -294,11 +308,13 @@ const CheckOut = () => {
   return (
     <div
       className="co_container"
-      style={
-        loggedIn ? { display: "block" } : { display: "none" }
-      }
+      style={loggedIn ? { display: "block" } : { display: "none" }}
     >
-      <div className="back_arrow" onClick={() => navigate("/basket")} style={{marginLeft:'230px'}}>
+      <div
+        className="back_arrow"
+        onClick={() => navigate("/basket")}
+        style={{ marginLeft: "230px" }}
+      >
         {" "}
         <HiArrowNarrowLeft className="arrowIcon" /> <span>Back to basket</span>{" "}
       </div>
@@ -333,37 +349,35 @@ const CheckOut = () => {
                 {savedBillingInfo && savedBillingInfo[0].email}
               </div>
             </div>
-            {
-              savedBillingInfo.length>1 && savedBillingInfo[1]
-              && <div className="co_sa_box_right">
-              <input
-                type="radio"
-                id="select_addr"
-                value={useSavedBilling2}
-                onClick={() => {
-                  setUseSavedBilling1(false);
-                  setUseSavedBilling2(!useSavedBilling2);
-                  handleUseSavedBilling(2);
-                }}
-                checked={useSavedBilling2}
-                name="billing addr"
-              />
-              <div className="co_sa_row1">
-              To <br />
-                {savedBillingInfo && savedBillingInfo[1].firstname}{" "}
-                {savedBillingInfo && savedBillingInfo[1].lastname} <br />
-                {savedBillingInfo && savedBillingInfo[1].address1},{" "}
-                {savedBillingInfo && savedBillingInfo[1].address2}, <br />
-                {savedBillingInfo && savedBillingInfo[1].landmark}, <br />
-                {savedBillingInfo && savedBillingInfo[1].city},{" "}
-                {savedBillingInfo && savedBillingInfo[1].state} <br />
-                {savedBillingInfo && savedBillingInfo[1].zipCode} <br />
-                +91 {savedBillingInfo && savedBillingInfo[1].phone} <br />
-                {savedBillingInfo && savedBillingInfo[1].email}
+            {savedBillingInfo.length > 1 && savedBillingInfo[1] && (
+              <div className="co_sa_box_right">
+                <input
+                  type="radio"
+                  id="select_addr"
+                  value={useSavedBilling2}
+                  onClick={() => {
+                    setUseSavedBilling1(false);
+                    setUseSavedBilling2(!useSavedBilling2);
+                    handleUseSavedBilling(2);
+                  }}
+                  checked={useSavedBilling2}
+                  name="billing addr"
+                />
+                <div className="co_sa_row1">
+                  To <br />
+                  {savedBillingInfo && savedBillingInfo[1].firstname}{" "}
+                  {savedBillingInfo && savedBillingInfo[1].lastname} <br />
+                  {savedBillingInfo && savedBillingInfo[1].address1},{" "}
+                  {savedBillingInfo && savedBillingInfo[1].address2}, <br />
+                  {savedBillingInfo && savedBillingInfo[1].landmark}, <br />
+                  {savedBillingInfo && savedBillingInfo[1].city},{" "}
+                  {savedBillingInfo && savedBillingInfo[1].state} <br />
+                  {savedBillingInfo && savedBillingInfo[1].zipCode} <br />
+                  +91 {savedBillingInfo && savedBillingInfo[1].phone} <br />
+                  {savedBillingInfo && savedBillingInfo[1].email}
+                </div>
               </div>
-            </div>
-            }
-            
+            )}
           </div>
           <h3>OR</h3>
         </div>
@@ -513,9 +527,7 @@ const CheckOut = () => {
             />
           </div>
           <div>
-            <label>
-              GSTIN
-            </label>
+            <label>GSTIN</label>
             <input
               type="text"
               name="gstin"
@@ -524,9 +536,7 @@ const CheckOut = () => {
             />
           </div>
           <div>
-            <label>
-              Purchase Order No.
-            </label>
+            <label>Purchase Order No.</label>
             <input
               type="text"
               name="purchase_order_no"
