@@ -217,7 +217,10 @@ const Payment = () => {
       className="co_container payment_container"
       style={isPreviousPaymentDone ? { display: "none" } : { display: "block" }}
     >
-      <div className="back_arrow" onClick={() => navigate("/checkout")}>
+      <div
+        className="back_arrow col-10 mx-auto mt-4"
+        onClick={() => navigate("/checkout")}
+      >
         <HiArrowNarrowLeft className="arrowIcon" />{" "}
         <span>Back to Checkout</span>{" "}
       </div>
@@ -279,7 +282,7 @@ const Payment = () => {
           Your total savings on this order: ₹
           {JSON.parse(sessionStorage.getItem("totalDiscountAmount"))}
         </h5>
-        <div className="mt-4  col-xl-7 col-lg-4 col-md-4 col-sm-6 col-10 d-flex justify-content-around">
+        <div className="mt-4 col-xl-7 col-lg-4 col-md-4 col-sm-6 col-10 d-flex justify-content-around">
           <div>
             <h5>
               Billing Information{" "}
