@@ -92,7 +92,7 @@ const ResetUnP = ({ forgotValue }) => {
 
   return (
     <div className="container">
-      <div className="text-center mt-5 pt-3 ">
+      <div className="text-center mt-5 pt-3">
         <div className="loginHeader" style={{ textTransform: "capitalize" }}>
           Reset {forgotValue}
         </div>
@@ -102,7 +102,7 @@ const ResetUnP = ({ forgotValue }) => {
             <span className="text-danger">*</span>
             <span className="text-danger ms-2">{error1 !== "" && error1}</span>
           </div>
-          <div className="">
+          <div>
             <input
               name={forgotValue === "password" ? "password" : "username"}
               value={inputVal}
@@ -122,7 +122,7 @@ const ResetUnP = ({ forgotValue }) => {
             <span className="text-danger">*</span>
             <span className="text-danger ms-2">{error2 !== "" && error2}</span>
           </div>
-          <div className="">
+          <div>
             <input
               name={forgotValue === "password" ? "password" : "username"}
               value={confirmInputVal}

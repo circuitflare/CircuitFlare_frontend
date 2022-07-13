@@ -3,9 +3,12 @@ import "../styles/checkOut.css";
 import { useNavigate } from "react-router-dom";
 import { HiArrowNarrowLeft } from "react-icons/hi";
 import Swal from "sweetalert2";
+import { useSearchParams } from "react-router-dom";
 
 const CheckOut = () => {
   const navigate = useNavigate();
+  let [searchParams, setSearchParams] = useSearchParams();
+
   const [loggedIn, setLoggedIn] = useState(false);
   const [useBillingInfo, setUseBillingInfo] = useState(false);
   const [saveInfo, setSaveInfo] = useState(false);
@@ -52,14 +55,20 @@ const CheckOut = () => {
     if (!sessionStorage.getItem("loggedInUser")) {
       setLoggedIn(false);
       Swal.fire({
-        title: "User Is Not Authorized",
+        title: "Please login to your account to checkout.",
         icon: "info",
         confirmButtonText: "Close",
       }).then(() => navigate("/login"));
     } else {
-      //whenever checkout page loads , we will make this value true so that user wont be able to route directly to payment page
+
+      if(searchParams.get("edit")){
+        //we are coming from payment page to edit billing/delivery info , so user can still access payment page .That's why made the value false
+        sessionStorage.setItem("IsPreviousPaymentDone", false);
+      }else{
+        //whenever checkout page loads , we will make this value true so that user wont be able to route directly to payment page
       //and in handleContinue func , we are making this value to false which means we will allow user to route to /payment page only when they fill all the fields properly
       sessionStorage.setItem("IsPreviousPaymentDone", true);
+      }
 
       if (!sessionStorage.getItem("basketItems") || sessionStorage.getItem("totalBasketItems") === 0 || JSON.parse(sessionStorage.getItem("basketItems")).length === 0) {
         setLoggedIn(false);
@@ -168,6 +177,8 @@ const CheckOut = () => {
       if (!useSavedBilling1) {
         // console.log('to use saved billing info')
         setBillingInfo(savedBillingInfo[0]);
+        sessionStorage.setItem("billingInfoIndex", 0);
+
       } else {
         // console.log('to not use saved billing info')
         setBillingInfo({
@@ -191,6 +202,8 @@ const CheckOut = () => {
       if (!useSavedBilling2) {
         // console.log('to use saved billing info')
         setBillingInfo(savedBillingInfo[1]);
+        sessionStorage.setItem("billingInfoIndex", 1);
+
       } else {
         // console.log('to not use saved billing info')
         setBillingInfo({

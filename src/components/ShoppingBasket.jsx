@@ -51,20 +51,20 @@ const Shopping_Basket = () => {
       } else {
         setIsBasketEmpty(true);
 
-        Swal.fire({
-          title: "Basket Is Empty! Please Add An Item",
-          icon: "error",
-          confirmButtonText: "Close",
-        }).then(() => navigate("/"));
+        // Swal.fire({
+        //   title: "Basket Is Empty! Please Add An Item",
+        //   icon: "error",
+        //   confirmButtonText: "Close",
+        // }).then(() => navigate("/"));
       }
     } else {
       setIsBasketEmpty(true);
 
-      Swal.fire({
-        title: "Basket Is Empty! Please Add An Item",
-        icon: "error",
-        confirmButtonText: "Close",
-      }).then(() => navigate("/"));
+      // Swal.fire({
+      //   title: "Basket Is Empty! Please Add An Item",
+      //   icon: "error",
+      //   confirmButtonText: "Close",
+      // }).then(() => navigate("/"));
     }
 
     if (sessionStorage.getItem("loggedInUser")) {
@@ -139,11 +139,11 @@ const Shopping_Basket = () => {
     if (newBasketItems.length === 0) {
       setIsBasketEmpty(true);
 
-      Swal.fire({
-        title: "Basket Is Empty! Please Add An Item",
-        icon: "error",
-        confirmButtonText: "Close",
-      }).then(() => navigate("/"));
+      // Swal.fire({
+      //   title: "Basket Is Empty! Please Add An Item",
+      //   icon: "error",
+      //   confirmButtonText: "Close",
+      // }).then(() => navigate("/"));
     }
   };
 
@@ -176,11 +176,11 @@ const Shopping_Basket = () => {
         .catch((err) => console.log(err));
     }
 
-    Swal.fire({
-      title: "Basket is now empty , please add new items",
-      icon: "error",
-      confirmButtonText: "Close",
-    }).then(() => navigate("/"));
+    // Swal.fire({
+    //   title: "Basket is now empty , please add new items",
+    //   icon: "error",
+    //   confirmButtonText: "Close",
+    // }).then(() => navigate("/"));
   };
 
   const handleCheckout = () => {
@@ -337,8 +337,7 @@ const Shopping_Basket = () => {
                 }}
               >
                 <td colspan="9" style={{ color: "#707070" }}>
-                  {/* You have no items in the basket. Go ahead and add items to
-                  show up over here */}
+                Your Shopping Basket is Empty. Search for a part and add it to the basket to view it here.
                 </td>
               </tr>
             )}

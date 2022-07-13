@@ -5,9 +5,12 @@ import { loginUser } from "../APIcalls";
 import Swal from "sweetalert2";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../firebase-configs";
+import { useSearchParams } from "react-router-dom";
+
 
 export default function Login() {
   const navigate = useNavigate();
+  let [searchParams, setSearchParams] = useSearchParams();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -52,7 +55,13 @@ export default function Login() {
               role: res.data.user.role,
             })
           );
-          navigate("/");
+
+          if(searchParams.get("redirect") === "orderhistory"){
+            navigate("/order_history")
+          }else{
+            navigate("/");
+          }
+          
         }
       }
     } catch (err) {
@@ -96,13 +105,25 @@ export default function Login() {
           role: resApi.data.user.role,
         })
       );
-      navigate("/");
+
+      if(searchParams.get("redirect") === "orderhistory"){
+        navigate("/order_history")
+      }else{
+        navigate("/");
+      }
+
     } catch (error) {
       Swal.fire({
         title: `${error.response.data.message}`,
         icon: "error",
         confirmButtonText: "Close",
       });
+    }
+  };
+
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
     }
   };
 
@@ -142,6 +163,7 @@ export default function Login() {
                 setPassword(e.target.value);
                 setError("");
               }}
+              onKeyDown={(e) => handleEnter(e)}
               type="password"
               className="p-2 inputInput w-100"
             />
@@ -182,7 +204,6 @@ export default function Login() {
             >
               Signup
             </span>{" "}
-            or{" "}
           </div>
           <div className="mt-3 OR">OR</div>
           <button class="mt-4 login-with-google-btn" onClick={signInWithGoogle}>

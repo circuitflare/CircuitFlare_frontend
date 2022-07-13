@@ -67,6 +67,12 @@ const ForgotUnP = ({ forgotValue }) => {
     }
   };
 
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      handleSendEmail();
+    }
+  };
+
   return (
     <div className="container">
       <div className="text-center mt-5 pt-3 ">
@@ -86,6 +92,7 @@ const ForgotUnP = ({ forgotValue }) => {
                 setEmail(e.target.value);
                 setError("");
               }}
+              onKeyDown={(e) => handleEnter(e)}
               type="email"
               className="p-2 inputInput w-100"
             />

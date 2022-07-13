@@ -198,12 +198,13 @@ const BasketItem = ({
   return (
     <tr>
       <td>{id + 1}</td>
-      <td style={{ textAlign: "center" }}>
+      <td style={{ textAlign: "left" }}>
         <span
           style={{
             color: "#0053f2",
             cursor: "pointer",
             textDecoration: "underline",
+            marginLeft: "15px",
           }}
           onClick={() =>
             navigate(
@@ -228,8 +229,11 @@ const BasketItem = ({
           {curr.itemDetails.source_part_number}
         </span>{" "}
         <br />
-        Mfr. : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        {curr.itemDetails.manufacturer}
+        <span style={{ marginLeft: "15px" }}>
+          {" "}
+          Mfr. : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          {curr.itemDetails.manufacturer}
+        </span>
       </td>
       <td>{curr.itemDetails.description}</td>
       <td>

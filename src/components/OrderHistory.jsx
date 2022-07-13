@@ -17,10 +17,10 @@ const OrderHistory = () => {
   useEffect(() => {
     if (!sessionStorage.getItem("loggedInUser")) {
       Swal.fire({
-        title: "User Is Not Authorized",
+        title: "Please login to view your order!",
         icon: "info",
         confirmButtonText: "Close",
-      }).then(() => navigate("/login"));
+      }).then(() => navigate("/login?redirect=orderhistory"));
     } else {
       setLoggedIn(true);
       toGetUserOrders();

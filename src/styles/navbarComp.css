@@ -137,7 +137,8 @@
 
 .navbar_dropdown-content-signup{
   display:flex !important;
-  margin: 15px 0;
+  margin: 15px auto;
+  white-space: nowrap;
 }
 
 .whenNoSearch{
@@ -190,7 +191,7 @@
   }
 }
 
-@media (max-width: 1442px) {
+@media (max-width: 1441px) {
   .navbar_comp {
     height: 7vh;
   }
@@ -216,13 +217,18 @@
   }
 
   .navbar_links {
-    width: 360px;
     transform: scale(0.9);
   }
 
   .navbar_dropdown-content {
-    top: 60px;
-    right: 138px;
+    width:200px;
+    top: 49px;
+    right: 45px;
+  }
+
+  .navbar_dropdown-content_width{
+    width: 240px;
+    right: 25px;
   }
 }
 

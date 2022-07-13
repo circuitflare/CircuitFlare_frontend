@@ -19,6 +19,7 @@ const Payment = () => {
   const [transactionAmount, setTransactionAmount] = useState();
   const [userEmail, setUserEmail] = useState();
   const [userId, setUserId] = useState();
+  const [billingInfoIndex, setBillingInfoIndex] = useState(sessionStorage.getItem("billingInfoIndex") ? sessionStorage.getItem("billingInfoIndex") : 0);
 
   const Razorpay = useRazorpay();
 
@@ -123,17 +124,21 @@ const Payment = () => {
 
         orderNum = orderNum + orderCount;
 
+        let billingInfoIndex = sessionStorage.getItem('billingInfoIndex') ? sessionStorage.getItem('billingInfoIndex') : 0
+
         let orderData = {
           billingInfo,
+          usedBillingInfo : billingInfo[billingInfoIndex],
           deliveryInfo,
           totalBasketAmount: paidAmount,
           totalTransactionAmount: transactionAmount,
-          totalDiscountAmount:Number(sessionStorage.getItem("totalDiscountAmount")),
+          totalDiscountAmount: Number(
+            sessionStorage.getItem("totalDiscountAmount")
+          ),
           cartItems,
           totalBasketItems,
           razorpay_payment_id: response.razorpay_payment_id,
           orderNumber: orderNum,
-          userId
         };
 
         console.log(cartItems)
@@ -216,33 +221,122 @@ const Payment = () => {
         <HiArrowNarrowLeft className="arrowIcon" />{" "}
         <span>Back to Checkout</span>{" "}
       </div>
-      <div className="payment_details">
-        <h2>Order Summary</h2>
-        <div className="p_d_box">
+      <div className="payment_details col-12 mx-auto mt-3 d-flex">
+        <h2 className="col-12 text-center mt-3">Your Order Summary</h2>
+        <div className="p_d_box col-xl-3 col-lg-4 col-md-4 col-sm-6 col-10 mt-1">
           <div className="p_d_box_col">
-            <span>Merchandise :</span>
-            <span>GST (18%) :</span>
-            <span>Shipping :</span>            
-            <span>Sub Total :</span>
+            <span className="mb-1">Total Number of Items:</span>
+            <span className="mb-1">Merchandise :</span>
+            <span className="mb-1">GST (18%) :</span>
+            <span className="mb-1">Shipping :</span>
+            <span className="mb-1">Sub Total :</span>
           </div>
           <div className="p_d_box_col">
-            <span>₹ {paidAmount && changeToIndianFormat(Number(paidAmount).toFixed(2))}</span>
-            <span>₹ {paidAmount && changeToIndianFormat(Number((Number(paidAmount)) * 0.18).toFixed(2))}</span>
-            <span>₹ 250.00</span>
-
-            <span>
+            <span
+              className="mb-1"
+              style={{
+                color: "#0053F2",
+                textDecoration: "underline",
+                cursor: "pointer",
+              }}
+              onClick={() => navigate("/basket")}
+            >
+              {JSON.parse(sessionStorage.getItem("basketItems")).length ===
+              1 ? (
+                <>1 item</>
+              ) : (
+                <>{`${
+                  JSON.parse(sessionStorage.getItem("basketItems")).length
+                } item(s)`}</>
+              )}
+            </span>
+            <span className="mb-1">
               ₹{" "}
               {paidAmount &&
-                changeToIndianFormat(Number(Number(paidAmount) + 250 + (Number(paidAmount)) * 0.18).toFixed(2))}
+                changeToIndianFormat(Number(paidAmount).toFixed(2))}
             </span>
+            <span className="mb-1">
+              ₹{" "}
+              {paidAmount &&
+                changeToIndianFormat(
+                  Number(Number(paidAmount) * 0.18).toFixed(2)
+                )}
+            </span>
+            <span className="mb-1">₹ 250.00</span>
+
+            <span className="mb-1">
+              ₹{" "}
+              {paidAmount &&
+                changeToIndianFormat(
+                  Number(
+                    Number(paidAmount) + 250 + Number(paidAmount) * 0.18
+                  ).toFixed(2)
+                )}
+            </span>
+          </div>
+        </div>
+        <h5 className="col-12 text-center mt-1" style={{ color: "#068D29" }}>
+          Your total savings on this order: ₹
+          {JSON.parse(sessionStorage.getItem("totalDiscountAmount"))}
+        </h5>
+        <div className="mt-4  col-xl-7 col-lg-4 col-md-4 col-sm-6 col-10 d-flex justify-content-around">
+          <div>
+            <h5>
+              Billing Information{" "}
+              <span
+                style={{
+                  color: "#0053F2",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+                onClick={() => navigate("/checkout?edit=true")}
+              >
+                Edit
+              </span>{" "}
+            </h5>
+            <div className="aod_c_addr">
+              {billingInfo && billingInfo[billingInfoIndex] && billingInfo[billingInfoIndex].firstname}{" "}
+              {billingInfo && billingInfo[billingInfoIndex] && billingInfo[billingInfoIndex].lastname} <br />{" "}
+              {billingInfo && billingInfo[billingInfoIndex] && billingInfo[billingInfoIndex].address1}
+              <br /> {billingInfo && billingInfo[billingInfoIndex] && billingInfo[billingInfoIndex].city},{" "}
+              {billingInfo && billingInfo[billingInfoIndex] && billingInfo[billingInfoIndex].state} <br />{" "}
+              {billingInfo && billingInfo[billingInfoIndex] && billingInfo[billingInfoIndex].zipCode} <br />
+              +91 {billingInfo && billingInfo[billingInfoIndex] && billingInfo[billingInfoIndex].phone} <br />
+              {billingInfo && billingInfo[billingInfoIndex] && billingInfo[billingInfoIndex].email}
+            </div>
+          </div>
+          <div>
+            <h5>
+              Delivery Information{" "}
+              <span
+                style={{
+                  color: "#0053F2",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+                onClick={() => navigate("/checkout?edit=true")}
+              >
+                Edit
+              </span>{" "}
+            </h5>
+            <div className="aod_c_addr">
+              {deliveryInfo && deliveryInfo.firstname}{" "}
+              {deliveryInfo && deliveryInfo.lastname} <br />{" "}
+              {deliveryInfo && deliveryInfo.address1}
+              <br /> {deliveryInfo && deliveryInfo.city},{" "}
+              {deliveryInfo && deliveryInfo.state} <br />{" "}
+              {deliveryInfo && deliveryInfo.zipCode} <br />
+              +91 {deliveryInfo && deliveryInfo.phone} <br />
+              {deliveryInfo && deliveryInfo.email}
+            </div>
           </div>
         </div>
         <button onClick={handlePay}>Pay Now</button>
       </div>
-      <div className="back_arrow" onClick={() => navigate("/checkout")}>
+      {/* <div className="back_arrow" onClick={() => navigate("/checkout")}>
         <HiArrowNarrowLeft className="arrowIcon" />{" "}
         <span>Back to Checkout</span>{" "}
-      </div>
+      </div> */}
     </div>
   );
 };

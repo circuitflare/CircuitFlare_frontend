@@ -8,6 +8,7 @@ import validator from "validator";
 const AccountSettings = () => {
   const [loggedInUser, setLoggedInUser] = useState(false);
   const [user, setUser] = useState();
+  const [id,setId]=useState()
 
   const [cpw, setcpw] = useState('');
   const [npw, setnpw] = useState('');
@@ -27,6 +28,8 @@ const AccountSettings = () => {
     } else {
       setLoggedInUser(true);
       setUser(JSON.parse(sessionStorage.getItem("loggedInUser")));
+      setId(JSON.parse(sessionStorage.getItem("userDetails"))._id);
+
     }
   }, []);
 
@@ -70,6 +73,7 @@ const AccountSettings = () => {
           currPassword: cpw,
           newPassword: npw,
           confirmPassword: copw,
+          id
         };
 
         const res = await changePw(passwords);
@@ -89,6 +93,12 @@ const AccountSettings = () => {
         icon: "info",
         confirmButtonText: "Close",
       });
+    }
+  };
+
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      handleChangePW();
     }
   };
 
@@ -160,6 +170,7 @@ const AccountSettings = () => {
               setcopw(e.target.value);
               setError("");
             }}
+            onKeyDown={(e) => handleEnter(e)}
           />
         </div>
       </div>

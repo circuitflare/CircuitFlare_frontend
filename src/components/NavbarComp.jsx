@@ -363,13 +363,13 @@ const NavbarComp = ({ hideSearchCart = false, ItemsInBasket = 0 }) => {
             }
             onMouseLeave={() => setShowMenu(false)}
           >
-            <li>
+            <li className='mx-auto'>
               <button onClick={() => navigate("/login")}>Login</button>
             </li>
             <li className="navbar_dropdown-content-signup">
               New Customer?{" "}
               <span
-                style={{ color: "#0053F2" }}
+                style={{ color: "#0053F2",whiteSpace:'nowrap' }}
                 onClick={() => navigate("/signup")}
               >
                 &nbsp;Sign up

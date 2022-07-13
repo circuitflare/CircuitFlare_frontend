@@ -201,6 +201,12 @@ const Signup = () => {
     }
   };
 
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      handleSignup();
+    }
+  };
+
   return (
     <div className="container">
       <div className="text-center mt-4 pt-3 ">
@@ -305,6 +311,7 @@ const Signup = () => {
                   onChange={handleOnChange}
                   type="password"
                   className="p-2 inputInput w-100"
+                  onKeyDown={(e) => handleEnter(e)}
                 />
               </div>
             </div>
